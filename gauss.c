@@ -5,11 +5,16 @@
 // Wybór pivota
 void choose_pivot(double **A, double *b, int n, int k) {
     int max = k;
+    double eps = 1e-9;
 
     for (int i = k + 1; i < n; i++) {
-        if (fabs(A[i][k]) > fabs(A[max][k])) {
+        if (fabs(A[i][k]) > fabs(A[max][k]) + eps) {
             max = i;
         }
+    }
+
+    if (fabs(A[max][k]) < eps) {
+        printf("Uwaga: pivot bliski zeru\n");
     }
 
     if (max != k) {
@@ -22,6 +27,7 @@ void choose_pivot(double **A, double *b, int n, int k) {
         b[max] = tb;
     }
 }
+
 
 // Eliminacja Gaussa
 // Sprowadzenie do postaci górnotrójkątnej
@@ -36,5 +42,16 @@ void gaussian_elimination(double **A, double *b, int n) {
             }
             b[i] -= m * b[k];
         }
+    }
+}
+
+// Podstawienie wsteczne
+void back_substitution(double **A, double *b, double *x, int n) {
+    for (int i = n - 1; i >= 0; i--) {
+        x[i] = b[i];
+        for (int j = i + 1; j < n; j++) {
+            x[i] -= A[i][j] * x[j];
+        }
+        x[i] /= A[i][i];
     }
 }
