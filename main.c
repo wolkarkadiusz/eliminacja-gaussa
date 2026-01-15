@@ -10,15 +10,14 @@ int main() {
 
     double *A[] = {r0, r1, r2};
     double b[] = {8, -11, -3};
+    double x[3];
 
     gaussian_elimination(A, b, n);
+    back_substitution(A, b, x, n);
 
-    printf("Macierz po eliminacji Gaussa:\n");
+    printf("Rozwiązanie układu:\n");
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%8.3f ", A[i][j]);
-        }
-        printf("| %8.3f\n", b[i]);
+        printf("x[%d] = %f\n", i, x[i]);
     }
 
     return 0;
